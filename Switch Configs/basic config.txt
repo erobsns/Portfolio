@@ -1,0 +1,286 @@
+system {
+    host-name jswitch;
+    auto-snapshot;
+    ports {
+        console log-out-on-disconnect;
+        auxiliary insecure;
+    }
+    root-authentication {
+        encrypted-password "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; ## SECRET-DATA
+    }
+    services {
+        ftp;
+        ssh {
+            root-login allow;
+        }
+    }
+    syslog {
+        user * {
+            any emergency;
+        }
+        file messages {
+            any notice;
+            authorization info;
+        }
+        file interactive-commands {
+            interactive-commands any;
+        }
+    }
+    processes {
+        dhcp-service {
+            traceoptions {
+                file dhcp_logfile size 10m;
+                level all;
+                flag all;
+            }
+        }
+    }
+    ntp {
+        source-address 192.168.1.2;
+    }
+}
+chassis {
+    redundancy {
+        graceful-switchover;
+    }
+    alarm {
+        management-ethernet {
+            link-down ignore;
+        }
+    }
+}
+interfaces {
+    interface-range WiredInt {
+        member ge-0/0/1;
+        member ge-0/0/2;
+        member ge-0/0/3;
+        member ge-0/0/4;
+        member ge-0/0/5;
+        member ge-0/0/6;
+        member ge-0/0/7;
+        member ge-0/0/8;
+        member ge-0/0/9;
+        member ge-0/0/10;
+        member ge-0/0/11;
+        unit 0 {
+            family ethernet-switching {
+                interface-mode access;
+            }
+        }
+    }
+    ge-0/0/0 {
+        description FireWall;
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/1 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/2 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/3 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/4 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/5 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/6 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/7 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/8 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/9 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/10 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/0/11 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/1/0 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    xe-0/1/0 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    ge-0/1/1 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    xe-0/1/1 {
+        unit 0 {
+            family ethernet-switching {
+                storm-control default;
+            }
+        }
+    }
+    irb {
+        unit 0 {
+            family inet {
+                dhcp {
+                    vendor-id Juniper-ex2300-c-12t-xxxxxxxxx;
+                }
+            }
+        }
+        unit 10 {
+            family inet {
+                address 192.168.1.2/24;
+            }
+        }
+    }
+    vme {
+        unit 0 {
+            family inet {
+                dhcp {
+                    vendor-id Juniper-ex2300-c-12t-xxxxxxxxx;
+                }
+            }
+        }
+    }
+}
+forwarding-options {
+    storm-control-profiles default {
+        all;
+    }
+}
+routing-options {
+    static {
+        route 0.0.0.0/0 next-hop 192.168.1.1;
+    }
+}
+protocols {
+    lldp {
+        interface all;
+    }
+    lldp-med {
+        interface all;
+    }
+    igmp-snooping {
+        vlan default;
+        vlan all;
+    }
+    rstp {
+        bridge-priority 4k;
+        interface ge-0/0/0 {
+            edge;
+        }
+        interface ge-0/0/1 {
+            edge;
+        }
+        interface ge-0/0/2 {
+            edge;
+        }
+        interface ge-0/0/3 {
+            edge;
+        }
+        interface ge-0/0/4 {
+            edge;
+        }
+        interface ge-0/0/5 {
+            edge;
+        }
+        interface ge-0/0/6 {
+            edge;
+        }
+        interface ge-0/0/7 {
+            edge;
+        }
+        interface ge-0/0/8 {
+            edge;
+        }
+        interface ge-0/0/9 {
+            edge;
+        }
+        interface ge-0/0/10 {
+            edge;
+        }
+        interface ge-0/0/11 {
+            edge;
+        }
+        interface ge-0/1/0 {
+            edge;
+        }
+        interface xe-0/1/0 {
+            edge;
+        }
+        interface ge-0/1/1 {
+            edge;
+        }
+        interface xe-0/1/1 {
+            edge;
+        }
+    }
+}
+vlans {
+    default {
+        vlan-id 1;
+        l3-interface irb.0;
+    }
+}
